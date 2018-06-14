@@ -1,0 +1,42 @@
+<nav class="chat">
+        <div class="search "><span class="fa fa-search "></span>
+            <input type="text " ng-disabled="!online"/>
+        </div>
+        <div class="chat-wrapper">
+            <ul>
+                <!--- 
+                <li class="chat-human "  ng-repeat="user in users "> 
+                    <img class="chat-avatar " src="http://robohash.org/shit.png?set=set2&bgset=bg2&size=64x64 " alt=" " />
+                    <span class="chat-status-online "></span>
+                    <span class="chat-preview ">Where are we meeting ... </span>
+                    <span class="chat-name " ng-if="user==u serId ">You</span>
+                    <span class="chat-name " ng-if="user !=u serId ">{{user}}</span>
+                </li>
+                -->
+                <li class="chat-human" ng-class="{'noAddingMoreChat': !online}" ng-click="addPeopleFromChatlist('Christel')">
+                    <img class="chat-avatar " src="http://robohash.org/Christel.png?set=set2&bgset=bg2&size=64x64"/>
+                    <span class="chat-status-online "></span>
+                    <span class="chat-preview ">This is a sample text ... </span>
+                    <span class="chat-name ">Christel</span>
+                </li>
+                <li class="chat-human" ng-class="{'noAddingMoreChat': !online}" ng-click="addPeopleFromChatlist('John') ">
+                    <img class="chat-avatar " src="http://robohash.org/John.png?set=set2&bgset=bg2&size=64x64"/>
+                    <span class="chat-status-online "></span>
+                    <span class="chat-preview ">This is a sample text ... </span>
+                    <span class="chat-name ">John</span>
+                </li>
+                <li class="chat-human" ng-class="{'noAddingMoreChat': !online}" ng-click="addPeopleFromChatlist('Charlotte') ">
+                    <img class="chat-avatar " src="http://robohash.org/Charlotte.png?set=set2&bgset=bg2&size=64x64"/>
+                    <span class="chat-status-online "></span>
+                    <span class="chat-preview ">This is a sample text ... </span>
+                    <span class="chat-name ">Charlotte</span>
+                </li>
+                <li class="chat-human" ng-class="{'noAddingMoreChat': !online}" ng-click="addPeopleFromChatlist('Boom') ">
+                    <img class="chat-avatar " src="http://robohash.org/Boom.png?set=set2&bgset=bg2&size=64x64"/>
+                    <span class="chat-status-online "></span>
+                    <span class="chat-preview ">This is a sample text ... </span>
+                    <span class="chat-name ">Boom</span>
+                </li>
+            </ul>
+        </div>
+    </nav>

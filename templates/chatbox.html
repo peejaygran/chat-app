@@ -1,0 +1,9 @@
+<div ng-style="myStyle" ng-repeat="people in chatList" ng-if="$index <= 2" 
+        ng-class="{'chatbox': $index == 0, 'chatbox second': $index == 1, 'chatbox third': $index == 2, 'noAddingMoreChat': !online}">
+        
+        <chatbox-header></chatbox-header>
+        <chatbox-profile></chatbox-profile>
+        <chatbox-conversation></chatbox-conversation>
+        <chatbox-messagebox></chatbox-messagebox>
+        
+</div>

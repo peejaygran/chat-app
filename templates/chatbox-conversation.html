@@ -1,0 +1,10 @@
+<div class="chatbox-conversation" ng-scroll="messages">
+            <p ng-repeat="message in messages" ng-if="message.senderChannel == userId+'-'+people+'-Shappywise'" 
+                ng-class="{'animated slideInRight me': userId == message.id && !message.hasEmoji, 
+                          'animated slideInRight me-emoji': userId == message.id && message.hasEmoji,
+                          'animated slideInLeft them': userId != message.id && !message.hasEmoji,
+                          'animated slideInLeft them-emoji': userId != message.id && message.hasEmoji}">
+                {{message.content}}
+                <img ng-if="message.hasEmoji" ng-class="{'left': userId == message.id, 'right': userId != message.id}" src="img/bag.png">
+            </p>
+        </div>

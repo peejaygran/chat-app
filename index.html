@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Chat App</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <script src="https://cdn.pubnub.com/pubnub.min.js"></script>
+    <script src="https://cdn.pubnub.com/pubnub-crypto.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="http://pubnub.github.io/angular-js/scripts/pubnub-angular.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css'>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body ng-app="ShappyWise" ng-controller="ChatCtrl">
+    <div ng-style="myStyle" ng-repeat="people in chatList" ng-if="$index <= 2" ng-class="{'chatbox': $index == 0, 'chatbox second': $index == 1, 'chatbox third': $index == 2, 'noAddingMoreChat': !online}">
+        
+        <div class="chatbox-header" ng-class="{'offline':!online}">
+            <!--- <span class="chatbox-notif">2</span> -->
+            <span class="chatbox-online" ng-show="online"></span>
+            <span class="chatbox-header-title" ng-show="online">{{people}}</span>
+            <span class="chatbox-header-title" ng-hide="online">( Connection Lost ... )</span>
+            <span class="chatbox-header-close" ng-click="removePeopleFromChatlist(people)">
+				<i class="fa fa-times" aria-hidden="true"></i>
+			</span>
+        </div>
+
+        <div class="chatbox-profile">
+            <span class="chatbox-profile-image">
+				<img src="http://robohash.org/{{people}}.png?set=set2&bgset=bg2&size=64x64">
+			</span>
+            <span class="chatbox-profile-name">{{people}} Shappywise</span>
+            <span class="chatbox-profile-friendship">Friends since April 2017</span>
+        </div>
+
+        <div class="chatbox-conversation" ng-scroll="messages">
+            <p ng-repeat="message in messages" ng-if="message.senderChannel == userId+'-'+people+'-Shappywise'" ng-class="{'animated slideInRight me': userId == message.id && !message.hasEmoji, 
+                          'animated slideInRight me-emoji': userId == message.id && message.hasEmoji,
+                          'animated slideInLeft them': userId != message.id && !message.hasEmoji,
+                          'animated slideInLeft them-emoji': userId != message.id && message.hasEmoji}">
+                {{message.content}}
+                <img ng-if="message.hasEmoji" ng-class="{'left': userId == message.id, 'right': userId != message.id}" src="img/bag.png">
+            </p>
+        </div>
+
+        <div class="chatbox-messagebox" ng-class="{'noClicksAllowed':!online}">
+            <textarea placeholder="Type a message ... " rows="3 " required oninvalid="this.setCustomValidity( 'You cannot send an empty message.')" oninput="this.setCustomValidity( '') " ng-enter="publish($index,'Rich-'+people+ '-Shappywise') " ng-model="createNewMessage[$index].msg" ng-disabled="!online"></textarea>
+            <span class="chatbox-messagebox-emoji" ng-click="sendEmoji($index, 'Rich-'+people+'-Shappywise')">
+                <img src="img/bag.png">
+            </span>
+        </div>
+
+    </div>
+
+    <button class="view-online-users js-trigger">
+        <img src="img/view-users-online-img.png"> Chat ({{users.length}})
+    </button>
+
+    <nav class="chat">
+        <div class="search "><span class="fa fa-search "></span>
+            <input type="text " ng-disabled="!online" />
+        </div>
+        <div class="chat-wrapper">
+            <ul>
+                <!--- 
+                <li class="chat-human "  ng-repeat="user in users "> 
+                    <img class="chat-avatar " src="http://robohash.org/shit.png?set=set2&bgset=bg2&size=64x64 " alt=" " />
+                    <span class="chat-status-online "></span>
+                    <span class="chat-preview ">Where are we meeting ... </span>
+                    <span class="chat-name " ng-if="user==u serId ">You</span>
+                    <span class="chat-name " ng-if="user !=u serId ">{{user}}</span>
+                </li>
+                -->
+                <li class="chat-human" ng-class="{'noAddingMoreChat': !online}" ng-click="addPeopleFromChatlist('Christel')">
+                    <img class="chat-avatar " src="http://robohash.org/Christel.png?set=set2&bgset=bg2&size=64x64" />
+                    <span class="chat-status-online "></span>
+                    <span class="chat-preview ">This is a sample text ... </span>
+                    <span class="chat-name ">Christel</span>
+                </li>
+                <li class="chat-human" ng-class="{'noAddingMoreChat': !online}" ng-click="addPeopleFromChatlist('John') ">
+                    <img class="chat-avatar " src="http://robohash.org/John.png?set=set2&bgset=bg2&size=64x64" />
+                    <span class="chat-status-online "></span>
+                    <span class="chat-preview ">This is a sample text ... </span>
+                    <span class="chat-name ">John</span>
+                </li>
+                <li class="chat-human" ng-class="{'noAddingMoreChat': !online}" ng-click="addPeopleFromChatlist('Charlotte') ">
+                    <img class="chat-avatar " src="http://robohash.org/Charlotte.png?set=set2&bgset=bg2&size=64x64" />
+                    <span class="chat-status-online "></span>
+                    <span class="chat-preview ">This is a sample text ... </span>
+                    <span class="chat-name ">Charlotte</span>
+                </li>
+                <li class="chat-human" ng-class="{'noAddingMoreChat': !online}" ng-click="addPeopleFromChatlist('Boom') ">
+                    <img class="chat-avatar " src="http://robohash.org/Boom.png?set=set2&bgset=bg2&size=64x64" />
+                    <span class="chat-status-online "></span>
+                    <span class="chat-preview ">This is a sample text ... </span>
+                    <span class="chat-name ">Boom</span>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <script type="text/javascript" src="core-js/index.js"></script>
+    <script type="text/javascript" src="core-js/module.js"></script>
+    <script type="text/javascript" src="core-js/controller.js"></script>
+    <script type="text/javascript" src="core-js/connection.js"></script>
+    <script type="text/javascript" src="core-js/ngEnter.directive.js"></script>
+    <script type="text/javascript" src="core-js/ngSCroll.directive.js"></script>
+    <script type="text/javascript" src="core-js/templates.directive.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,6 @@
+<div class="chatbox-messagebox" ng-class="{'noClicksAllowed':!online}">
+    <textarea placeholder="Type a message ... " rows="3 " required oninvalid="this.setCustomValidity( 'You cannot send an empty message.')" oninput="this.setCustomValidity( '') " ng-enter="publish($index,'Rich-'+people+ '-Shappywise') " ng-model="createNewMessage[$index].msg" ng-disabled="!online"></textarea>
+    <span class="chatbox-messagebox-emoji" ng-click="sendEmoji($index, 'Rich-'+people+'-Shappywise')">
+                <img src="img/bag.png">
+            </span>
+</div>

@@ -1,0 +1,9 @@
+<div class="chatbox-header" ng-class="{'offline':!online}">
+            <!--- <span class="chatbox-notif">2</span> -->
+            <span class="chatbox-online" ng-show="online"></span>
+            <span class="chatbox-header-title" ng-show="online">{{people}}</span>
+            <span class="chatbox-header-title" ng-hide="online">( Connection Lost ... )</span>
+            <span class="chatbox-header-close" ng-click="removePeopleFromChatlist(people)">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </span>
+        </div>
